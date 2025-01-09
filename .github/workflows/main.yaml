@@ -44,13 +44,14 @@ jobs:
           artifact_name: zap-report.html
           allow_issue_writing: false
       - name: Send ZAP Report to Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          echo "Webhook URL: $DISCORD_WEBHOOK"
-          ls -l zap-report.html
           curl -X POST -H "Content-Type: multipart/form-data" \
             -F "content=Novo relatório OWASP ZAP!" \
             -F "file=@zap-report.html" \
-            "${{ secrets.DISCORD_WEBHOOK }}"
+            -F "file=@bandit-report.html" \
+            "$DISCORD_WEBHOOK"
 
 
   # semgrep:
