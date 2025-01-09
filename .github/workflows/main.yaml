@@ -19,8 +19,8 @@ jobs:
       run: pytest -v test_app.py
     - name: Run bandit
       run: |
-        bandit app.py
         bandit app.py -f html -o bandit-report.html --quiet
+        bandit app.py
         ls
       continue-on-error: true
     - name: Upload Bandit Report
