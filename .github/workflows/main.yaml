@@ -17,16 +17,16 @@ jobs:
         pip install bandit
     - name: Run test
       run: pytest -v test_app.py
-    - name: Run bandit Output
-      run: bandit app.py -f html -o bandit-report.html --quiet
-    - name: Upload Output Bandit
+    - name: Run bandit
+      run: |
+        bandit app.py -f html -o bandit-report.html --quiet
+        bandit app.py
+      continue-on-error: true
+    - name: Upload Bandit Report
       uses: actions/upload-artifact@v4
       with:
         name: bandit-report
         path: bandit-report.html
-      continue-on-error: true
-    - name: Run Bandit CLI
-      run: bandit app.py
     
   # semgrep:
   #   name: Semgrep CI
