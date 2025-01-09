@@ -41,6 +41,8 @@ jobs:
           target: 'http://host.docker.internal:5000'
           artifact_name: zap-report.html
       - name: Upload ZAP Report
+        run: ls
+      - name: Upload ZAP Report
         uses: actions/upload-artifact@v3
         with:
           name: zap-report
