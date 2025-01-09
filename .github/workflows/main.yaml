@@ -41,14 +41,13 @@ jobs:
           target: 'http://host.docker.internal:5000'
       - name: Generate ZAP Report (HTML)
         run: |
-          # Gerando o relatório HTML com ZAP
           docker exec zaproxy zap-cli report -o zap-report.html -f html
           
       - name: Upload ZAP Report
         uses: actions/upload-artifact@v3
         with:
           name: zap-report
-          path: zap-report.html  # Caminho do relatório gerado
+          path: zap-report.html 
 
   # semgrep:
   #   name: Semgrep CI
