@@ -35,6 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Safety CI
     steps:
+      - uses: actions/checkout@v4
       - uses: pyupio/safety-action@v1
         with:
           api-key: ${{ secrets.SAFETY_API_KEY }}
