@@ -45,9 +45,11 @@ jobs:
           allow_issue_writing: false
       - name: Send ZAP Report to Discord
         run: |
-          curl -X POST -H "Content-Type: application/json" \
-          -d '{"content": "Novo relatório OWASP ZAP! Veja o link abaixo:","embeds":[{"title":"Relatório OWASP ZAP","description":"Clique [aqui](<URL_DO_RELATÓRIO>) para visualizar o relatório."}]}' \
-          ${{ secrets.DISCORD_WEBHOOK }}
+          curl -X POST -H "Content-Type: multipart/form-data" \
+            -F "content=Novo relatório OWASP ZAP!" \
+            -F "zap=@zap-report.html" \
+            -F "bandit=@bandit-report" \
+            $DISCORD_WEBHOOK_URL
 
 
   # semgrep:
