@@ -45,6 +45,8 @@ jobs:
           allow_issue_writing: false
       - name: Send ZAP Report to Discord
         run: |
+          echo "Webhook URL: $DISCORD_WEBHOOK"
+          ls -l zap-report.html
           curl -X POST -H "Content-Type: multipart/form-data" \
             -F "content=Novo relatório OWASP ZAP!" \
             -F "file=@zap-report.html" \
