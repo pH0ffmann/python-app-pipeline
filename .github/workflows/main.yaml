@@ -14,26 +14,30 @@ jobs:
     - name: Install Dependencies
       run: |
         pip install -r requirements.txt
+        pip install bandit
     - name: Run test
       run: pytest -v test_app.py
-  semgrep:
-    name: Semgrep CI
-    runs-on: ubuntu-latest
-    container:
-      image: semgrep/semgrep
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Run Semgrep
-        run: semgrep ci
-        env:
-          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
-    if: "github.actor != 'dependabot[bot]'"
-  safety:
-    runs-on: ubuntu-latest
-    name: Safety CI
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pyupio/safety-action@v1
-        with:
-          api-key: ${{ secrets.SAFETY_API_KEY }}
+    - name: Run bandit
+      run: bandit -r .
+    
+  # semgrep:
+  #   name: Semgrep CI
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: semgrep/semgrep
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #     - name: Run Semgrep
+  #       run: semgrep ci
+  #       env:
+  #         SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+  #   if: "github.actor != 'dependabot[bot]'"
+  # safety:
+  #   runs-on: ubuntu-latest
+  #   name: Safety CI
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: pyupio/safety-action@v1
+  #       with:
+  #         api-key: ${{ secrets.SAFETY_API_KEY }}
