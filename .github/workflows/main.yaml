@@ -43,10 +43,15 @@ jobs:
           target: 'http://localhost:5000'
           artifact_name: zap-report.html
           allow_issue_writing: false
-      - name: Send ZAP Report to Discord
+      - name: Download Bandit Report
+        uses: actions/download-artifact@v3
+        with:
+          name: bandit-report
+      - name: Send ZAP and Bandit Report to Discord
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
+          ls
           curl -X POST -H "Content-Type: multipart/form-data" \
             -F "content=Novo relatório OWASP ZAP!" \
             -F "file=@zap-report.html" \
