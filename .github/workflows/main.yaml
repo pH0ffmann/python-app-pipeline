@@ -43,13 +43,6 @@ jobs:
           target: 'http://localhost:5000'
           artifact_name: zap-report.html
           allow_issue_writing: false
-      - name: Upload ZAP Report
-        run: ls
-      - name: Upload ZAP Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: report_html
-          path: report_html.html
 
   # semgrep:
   #   name: Semgrep CI
