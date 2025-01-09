@@ -50,7 +50,7 @@ jobs:
           curl -X POST -H "Content-Type: multipart/form-data" \
             -F "content=Novo relatório OWASP ZAP!" \
             -F "file=@zap-report.html" \
-            "$DISCORD_WEBHOOK"
+            "${{ secrets.DISCORD_WEBHOOK }}"
 
 
   # semgrep:
