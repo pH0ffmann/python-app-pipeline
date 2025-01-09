@@ -48,7 +48,6 @@ jobs:
           curl -X POST -H "Content-Type: multipart/form-data" \
             -F "content=Novo relatório OWASP ZAP!" \
             -F "zap=@zap-report.html" \
-            -F "bandit=@bandit-report" \
             "$DISCORD_WEBHOOK"
 
 
