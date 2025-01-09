@@ -44,9 +44,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Run app
+        run: python3 app.py
       - name: Run OWASP ZAP
-        run: |
-          docker run -t owasp/zap2docker-stable zap-baseline.py -t http://your-app-url.com -r zap-report.html
+        uses: zaproxy/action-baseline@v0.14.0
+        with:
+          target: 'https://0.0.0.0'
       - name: Upload OWASP ZAP Report
         uses: actions/upload-artifact@v4
         with:
