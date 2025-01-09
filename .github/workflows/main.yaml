@@ -17,12 +17,11 @@ jobs:
         pip install bandit
     - name: Run test
       run: pytest -v test_app.py
-    - name: Run bandit
-      run: |
-        bandit app.py -f html -o bandit-report.html --quiet
-        bandit app.py
-        ls
+    - name: Run bandit Output
+      run: bandit app.py -f html -o bandit-report.html --quiet
       continue-on-error: true
+    - name: Run Bandit CLI
+      run: bandit app.py
     - name: Upload Bandit Report
       uses: actions/upload-artifact@v4
       with:
