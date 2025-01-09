@@ -27,7 +27,18 @@ jobs:
       with:
         name: bandit-report
         path: bandit-report.html
-    
+  owasp-zap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+      - name: Run App
+        run: nohup python3 appy.py
+      - name: ZAP Scan
+        uses: zaproxy/action-full-scan@v0.12.0
+        with:
+          target: 'https:127.0.0.1:5000'
+
   # semgrep:
   #   name: Semgrep CI
   #   runs-on: ubuntu-latest
