@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: zap-report
-          path: zap-report.html 
+          path: report_html.html
 
   # semgrep:
   #   name: Semgrep CI
