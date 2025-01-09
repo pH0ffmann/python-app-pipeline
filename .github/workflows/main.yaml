@@ -49,7 +49,7 @@ jobs:
             -F "content=Novo relatório OWASP ZAP!" \
             -F "zap=@zap-report.html" \
             -F "bandit=@bandit-report" \
-            $DISCORD_WEBHOOK_URL
+            $DISCORD_WEBHOOK
 
 
   # semgrep:
