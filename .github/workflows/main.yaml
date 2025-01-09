@@ -40,9 +40,7 @@ jobs:
         with:
           target: 'http://host.docker.internal:5000'
       - name: Generate ZAP Report (HTML)
-        run: |
-          docker exec zaproxy zap-cli report -o zap-report.html -f html
-          
+        run: docker exec zaproxy zap-cli report -o zap-report.html -f html
       - name: Upload ZAP Report
         uses: actions/upload-artifact@v3
         with:
