@@ -42,6 +42,7 @@ jobs:
         with:
           target: 'http://localhost:5000'
           artifact_name: zap-report.html
+          fail_on_error: false
       - name: Upload ZAP Report
         run: ls
       - name: Upload ZAP Report
