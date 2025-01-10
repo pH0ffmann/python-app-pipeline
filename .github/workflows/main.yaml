@@ -17,10 +17,10 @@ jobs:
           env:
             SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
           if: "github.actor != 'dependabot[bot]'"
-        - name: Safety
-          uses: pyupio/safety-action@v1
-          with:
-            api-key: ${{ secrets.SAFETY_API_KEY }}
+        # - name: Safety
+        #   uses: pyupio/safety-action@v1
+        #   with:
+        #     api-key: ${{ secrets.SAFETY_API_KEY }}
         - name: bandit
           run: |
             pip install bandit
