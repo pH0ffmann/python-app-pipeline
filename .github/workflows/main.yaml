@@ -63,10 +63,49 @@ jobs:
           target: 'http://localhost:5000'
           artifact_name: zap-report.html
           allow_issue_writing: false
+      - name: Upload Owasp Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-report
+          path: zap-report.html
+
+  
+  trivy:
+    name: Trivy
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Build an image from Dockerfile
+        run: docker build -t python:pipeline .
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: 'python:pipeline'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+      - name: Run Trivy vulnerability scanner in fs mode
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          trivy-config: trivy.yaml
+  
+  report:
+    runs-on: ubuntu-latest
+    name: Owasp and Bandit report
+    steps:
       - name: Download Bandit Report
         uses: actions/download-artifact@v4
         with:
           name: bandit-report
+      - name: Download Owasp Report
+        uses: actions/download-artifact@v4
+        with:
+          name: zap-report
       - name: Send ZAP and Bandit Report to Discord
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
@@ -74,6 +113,6 @@ jobs:
           ls
           curl -X POST -H "Content-Type: multipart/form-data" \
             -F "content=Novo relatório OWASP ZAP!" \
-            -F "file=@report_html.html" \
+            -F "file=@zap-report.html" \
             -F "file1=@bandit-report.html" \
             "$DISCORD_WEBHOOK"
