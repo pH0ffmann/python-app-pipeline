@@ -54,6 +54,6 @@ Para que a pipeline funcione corretamente, as seguintes chaves devem ser configu
 
 <div align="center">
   **Desenvolvido para portfólio por Pablo Hoffmann** <br>
-  <img src="https://media.giphy.com/media/Trippinganimalsbrewingco-mushroom-tripping-trippinganimals-HH0YHdOjABrihGvwhk/giphy.gif" alt="Gif de destaque"/>
+  <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZWs5dHkybHMya2ExbGoweTZ1NXMzbm1pbjFzeWJ5ZHN5YTkzc212MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HH0YHdOjABrihGvwhk/giphy.webp"/>
 </div>
 
