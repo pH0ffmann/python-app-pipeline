@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
   
 jobs:
-  semgrep:
-      name: Semgrep CI
+  SAST:
+      name: SAST
       runs-on: ubuntu-latest
       container:
         image: semgrep/semgrep
@@ -18,16 +18,25 @@ jobs:
           run: semgrep ci
           env:
             SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
-      if: "github.actor != 'dependabot[bot]'"
-  safety:
-    runs-on: ubuntu-latest
-    name: Safety CI
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pyupio/safety-action@v1
-        with:
-          api-key: ${{ secrets.SAFETY_API_KEY }}
+          if: "github.actor != 'dependabot[bot]'"
+        - name: Safety
+          uses: pyupio/safety-action@v1
+          with:
+            api-key: ${{ secrets.SAFETY_API_KEY }}
+        - name: bandit
+          run: |
+            pip install bandit
+            bandit app.py -f html -o bandit-report.html --quiet
+            bandit app.py
+          continue-on-error: true
+        - name: Upload Bandit Report
+          uses: actions/upload-artifact@v4
+          with:
+            name: bandit-report
+            path: bandit-report.html
+
   test:
+    name: PyTest
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -37,21 +46,12 @@ jobs:
     - name: Install Dependencies
       run: |
         pip install -r requirements.txt
-        pip install bandit
     - name: Run test
       run: pytest -v test_app.py
-    - name: Run bandit
-      run: |
-        bandit app.py -f html -o bandit-report.html --quiet
-        bandit app.py
-      continue-on-error: true
-    - name: Upload Bandit Report
-      uses: actions/upload-artifact@v4
-      with:
-        name: bandit-report
-        path: bandit-report.html
-  owasp-zap:
-    needs: test
+
+  DAST:
+    name: Owasp ZAP
+    needs: SAST
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
