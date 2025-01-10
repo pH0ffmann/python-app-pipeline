@@ -30,6 +30,7 @@ jobs:
         name: bandit-report
         path: bandit-report.html
   owasp-zap:
+    needs: bandit-scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -44,7 +45,7 @@ jobs:
           artifact_name: zap-report.html
           allow_issue_writing: false
       - name: Download Bandit Report
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: bandit-report
       - name: Send ZAP and Bandit Report to Discord
@@ -55,7 +56,7 @@ jobs:
           curl -X POST -H "Content-Type: multipart/form-data" \
             -F "content=Novo relatório OWASP ZAP!" \
             -F "file=@zap-report.html" \
-            -F "file=@bandit-report.html" \
+            -F "file=@bandit-report" \
             "$DISCORD_WEBHOOK"
 
 
