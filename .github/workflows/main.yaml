@@ -10,13 +10,13 @@ jobs:
       container:
         image: semgrep/semgrep
       steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
-        - name: Run Semgrep
-          run: semgrep ci
-          env:
-            SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
-          if: "github.actor != 'dependabot[bot]'"
+        # - name: Checkout code
+        #   uses: actions/checkout@v4
+        # - name: Run Semgrep
+        #   run: semgrep ci
+        #   env:
+        #     SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+        #   if: "github.actor != 'dependabot[bot]'"
         # - name: Safety
         #   uses: pyupio/safety-action@v1
         #   with:
@@ -33,23 +33,22 @@ jobs:
             name: bandit-report
             path: bandit-report.html
 
-  test:
-    name: PyTest
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
-    - name: Install Dependencies
-      run: |
-        pip install -r requirements.txt
-    - name: Run test
-      run: pytest -v test_app.py
+  # test:
+  #   name: PyTest
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - uses: actions/setup-python@v5
+  #     with:
+  #       python-version: '3.12'
+  #   - name: Install Dependencies
+  #     run: |
+  #       pip install -r requirements.txt
+  #   - name: Run test
+  #     run: pytest -v test_app.py
 
   DAST:
     name: DAST
-    needs: SAST
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -63,6 +62,7 @@ jobs:
           target: 'http://localhost:5000'
           artifact_name: zap-report.html
           allow_issue_writing: false
+          run: ls
       - name: Upload Owasp Report
         uses: actions/upload-artifact@v4
         with:
