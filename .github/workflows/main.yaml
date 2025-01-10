@@ -95,8 +95,9 @@ jobs:
           trivy-config: trivy.yaml
   
   report:
-    runs-on: ubuntu-latest
     name: Owasp and Bandit report
+    runs-on: ubuntu-latest
+    needs: [SAST, DAST]
     steps:
       - name: Download Bandit Report
         uses: actions/download-artifact@v4
