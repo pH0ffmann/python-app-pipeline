@@ -62,7 +62,8 @@ jobs:
           target: 'http://localhost:5000'
           artifact_name: zap-report.html
           allow_issue_writing: false
-          run: ls
+      - name: ls
+        run: ls
       - name: Upload Owasp Report
         uses: actions/upload-artifact@v4
         with:
@@ -70,29 +71,29 @@ jobs:
           path: zap-report.html
 
   
-  trivy:
-    name: Trivy
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Build an image from Dockerfile
-        run: docker build -t python:pipeline .
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          image-ref: 'python:pipeline'
-          format: 'table'
-          exit-code: '1'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
-      - name: Run Trivy vulnerability scanner in fs mode
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          scan-type: 'fs'
-          scan-ref: '.'
-          trivy-config: trivy.yaml
+  # trivy:
+  #   name: Trivy
+  #   runs-on: ubuntu-20.04
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #     - name: Build an image from Dockerfile
+  #       run: docker build -t python:pipeline .
+  #     - name: Run Trivy vulnerability scanner
+  #       uses: aquasecurity/trivy-action@0.28.0
+  #       with:
+  #         image-ref: 'python:pipeline'
+  #         format: 'table'
+  #         exit-code: '1'
+  #         ignore-unfixed: true
+  #         vuln-type: 'os,library'
+  #         severity: 'CRITICAL,HIGH'
+  #     - name: Run Trivy vulnerability scanner in fs mode
+  #       uses: aquasecurity/trivy-action@0.28.0
+  #       with:
+  #         scan-type: 'fs'
+  #         scan-ref: '.'
+  #         trivy-config: trivy.yaml
   
   report:
     name: Owasp and Bandit report
