@@ -6,6 +6,27 @@ on:
   workflow_dispatch:
   
 jobs:
+  semgrep:
+      name: Semgrep CI
+      runs-on: ubuntu-latest
+      container:
+        image: semgrep/semgrep
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+        - name: Run Semgrep
+          run: semgrep ci
+          env:
+            SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+      if: "github.actor != 'dependabot[bot]'"
+  safety:
+    runs-on: ubuntu-latest
+    name: Safety CI
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pyupio/safety-action@v1
+        with:
+          api-key: ${{ secrets.SAFETY_API_KEY }}
   test:
     runs-on: ubuntu-latest
     steps:
@@ -58,25 +79,3 @@ jobs:
             -F "file=@report_html.html" \
             -F "file1=@bandit-report.html" \
             "$DISCORD_WEBHOOK"
-
-  # semgrep:
-  #   name: Semgrep CI
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: semgrep/semgrep
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-  #     - name: Run Semgrep
-  #       run: semgrep ci
-  #       env:
-  #         SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
-  #   if: "github.actor != 'dependabot[bot]'"
-  # safety:
-  #   runs-on: ubuntu-latest
-  #   name: Safety CI
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: pyupio/safety-action@v1
-  #       with:
-  #         api-key: ${{ secrets.SAFETY_API_KEY }}
