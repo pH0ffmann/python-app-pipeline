@@ -50,7 +50,7 @@ jobs:
       run: pytest -v test_app.py
 
   DAST:
-    name: Owasp ZAP
+    name: DAST
     needs: SAST
     runs-on: ubuntu-latest
     steps:
