@@ -10,17 +10,17 @@ jobs:
       container:
         image: semgrep/semgrep
       steps:
-        # - name: Checkout code
-        #   uses: actions/checkout@v4
-        # - name: Run Semgrep
-        #   run: semgrep ci
-        #   env:
-        #     SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
-        #   if: "github.actor != 'dependabot[bot]'"
-        # - name: Safety
-        #   uses: pyupio/safety-action@v1
-        #   with:
-        #     api-key: ${{ secrets.SAFETY_API_KEY }}
+        - name: Checkout code
+          uses: actions/checkout@v4
+        - name: Run Semgrep
+          run: semgrep ci
+          env:
+            SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+          if: "github.actor != 'dependabot[bot]'"
+        - name: Safety
+          uses: pyupio/safety-action@v1
+          with:
+            api-key: ${{ secrets.SAFETY_API_KEY }}
         - name: bandit
           run: |
             pip install bandit
@@ -33,19 +33,19 @@ jobs:
             name: bandit-report
             path: bandit-report.html
 
-  # test:
-  #   name: PyTest
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - uses: actions/setup-python@v5
-  #     with:
-  #       python-version: '3.12'
-  #   - name: Install Dependencies
-  #     run: |
-  #       pip install -r requirements.txt
-  #   - name: Run test
-  #     run: pytest -v test_app.py
+  TEST:
+    name: PyTest
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+    - name: Run test
+      run: pytest -v test_app.py
 
   DAST:
     name: DAST
@@ -70,30 +70,29 @@ jobs:
           name: zap-report
           path: report_html.html
 
-  
-  # trivy:
-  #   name: Trivy
-  #   runs-on: ubuntu-20.04
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
-  #     - name: Build an image from Dockerfile
-  #       run: docker build -t python:pipeline .
-  #     - name: Run Trivy vulnerability scanner
-  #       uses: aquasecurity/trivy-action@0.28.0
-  #       with:
-  #         image-ref: 'python:pipeline'
-  #         format: 'table'
-  #         exit-code: '1'
-  #         ignore-unfixed: true
-  #         vuln-type: 'os,library'
-  #         severity: 'CRITICAL,HIGH'
-  #     - name: Run Trivy vulnerability scanner in fs mode
-  #       uses: aquasecurity/trivy-action@0.28.0
-  #       with:
-  #         scan-type: 'fs'
-  #         scan-ref: '.'
-  #         trivy-config: trivy.yaml
+  trivy:
+    name: Trivy
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Build an image from Dockerfile
+        run: docker build -t python:pipeline .
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: 'python:pipeline'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+      - name: Run Trivy vulnerability scanner in fs mode
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          trivy-config: trivy.yaml
   
   report:
     name: Owasp and Bandit report

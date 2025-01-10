@@ -1,6 +1,6 @@
 # Aplicação Python Simples com Pipeline CI
 
-Esta aplicação é uma aplicação simples em Python, desenvolvida para rodar e construir uma pipeline de CI/CD utilizando diversas ferramentas de segurança e testes. A principal finalidade é demonstrar a integração de ferramentas de **SAST**, **DAST** e execução de testes unitários com **pytest**. 
+Esta aplicação é uma aplicação simples em Python, desenvolvida para rodar e construir uma pipeline de CI/CD utilizando diversas ferramentas de segurança e testes. A principal finalidade é demonstrar a integração de ferramentas de **SAST**, **DAST**, execução de testes unitários com **pytest** e scans de segurança em container com **Trivy**. 
 
 A pipeline está configurada com as seguintes ferramentas de análise:
 
@@ -20,6 +20,10 @@ A pipeline também integra ferramentas de **DAST** para realizar testes de segur
 
 A pipeline executa testes unitários utilizando o **pytest**, para garantir que a aplicação está funcionando conforme o esperado antes de rodar as análises de segurança.
 
+## Ferramentas de Container Security ##
+
+- [**Trivy**](https://trivy.dev/latest/): Scanner de segurança para detectar vulnerabilidades em imagens de containers e arquivos de configuração.
+
 ## Integração com Discord
 
 No final do processo de CI, a pipeline está configurada para enviar os relatórios das ferramentas de segurança e testes para um canal do **Discord**, garantindo que as equipes possam acompanhar os resultados de maneira prática e em tempo real.
@@ -29,6 +33,7 @@ No final do processo de CI, a pipeline está configurada para enviar os relatór
 - **SAST (Semgrep, Safety, Bandit)**: Ferramentas de análise estática para detectar problemas de segurança no código.
 - **DAST (OWASP ZAP)**: Ferramenta de teste dinâmico que realiza varreduras de segurança no aplicativo em execução.
 - **Testes**: Execução de testes com o **pytest**.
+- **Trivy**: Ferramenta de segurança para container.
 - **Integração com o Discord**: Envio dos relatórios para o Discord, com o uso de webhooks, após a execução da pipeline.
 
 ## Dependências
@@ -41,6 +46,7 @@ A aplicação e pipeline utilizam as seguintes dependências:
 - **Bandit**
 - **OWASP ZAP**
 - **Pytest**
+- **Trivy**
 
 ## Dependências de Chaves
 
